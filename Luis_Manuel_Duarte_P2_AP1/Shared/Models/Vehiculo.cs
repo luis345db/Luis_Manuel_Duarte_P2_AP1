@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,11 @@ namespace Shared.Models
         public float Costo { get; set; }
 
         [Required(ErrorMessage = "El Monto es Requerido")]
-        public float Monto { get; set; }
-
-        [Required(ErrorMessage = "El Monto es Requerido")]
         public float Gasto { get; set; }
+
+        [ForeignKey("TicketId")]
+        public ICollection<Vehiculos_Detalle> Detalle { get; set; } = new List<Vehiculos_Detalle>();
+
 
 
 

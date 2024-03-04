@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace Shared.Models
 {
-    public class Accesorios
+    public class Vehiculos_Detalle
     {
         [Key] 
-        public int AccesorioId { get; set; }
+        public int Id { get; set; }
 
-        [Required(ErrorMessage = "Este campo es requerido")]
-        public string? Descripcion { get; set; }
+        [ForeignKey("VehiculoId") ] 
+        public int VehiculoId { get; set;}
+
+        [ForeignKey("AccesorioId")]
+        public int AccesorioId { get; set; }
 
     }
 }
