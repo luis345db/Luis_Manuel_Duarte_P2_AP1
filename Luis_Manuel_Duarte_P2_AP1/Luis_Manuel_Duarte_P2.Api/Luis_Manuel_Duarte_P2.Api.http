@@ -1,0 +1,6 @@
+@Luis_Manuel_Duarte_P2.Api_HostAddress = http://localhost:5005
+
+GET {{Luis_Manuel_Duarte_P2.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
