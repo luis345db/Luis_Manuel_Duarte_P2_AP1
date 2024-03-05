@@ -95,25 +95,25 @@
     protected override async Task OnInitializedAsync()
     {
         // await Buscar();
-        ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculo"))!;
+        ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes"))!;
     }
 
     public async Task Buscar()
     {
         if (Filtro == 1 && vehiculo!.VehiculoId > 0)
         {
-            ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculo"))!.Where(t => t.VehiculoId == vehiculo!.VehiculoId).ToList();
+            ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes"))!.Where(t => t.VehiculoId == vehiculo!.VehiculoId).ToList();
             StateHasChanged();
         }
         else
         if (Filtro == 2 && !string.IsNullOrEmpty(vehiculo!.Descripcion))
         {
-            ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculo"))!.Where(t => t.Descripcion!.ToLower() == vehiculo!.Descripcion.ToLower()).ToList();
+            ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes"))!.Where(t => t.Descripcion!.ToLower() == vehiculo!.Descripcion.ToLower()).ToList();
             StateHasChanged();
         }
         else
         {
-            ListaVehiculos = await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculo");
+            ListaVehiculos = await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes");
             StateHasChanged();
         }
         Conteo = ListaVehiculos != null ? ListaVehiculos!.Count() : 0;
