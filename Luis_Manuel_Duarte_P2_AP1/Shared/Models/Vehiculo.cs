@@ -25,7 +25,7 @@ namespace Shared.Models
         [Required(ErrorMessage = "El Monto es Requerido")]
         public float Gasto { get; set; }
 
-        [ForeignKey("TicketId")]
+        [ForeignKey("VehiculoId")]
         public ICollection<Vehiculos_Detalle> Detalle { get; set; } = new List<Vehiculos_Detalle>();
 
 

@@ -19,5 +19,7 @@ namespace Shared.Models
         [ForeignKey("AccesorioId")]
         public int AccesorioId { get; set; }
 
+        public int Valor { get; set; }
+
     }
 }
