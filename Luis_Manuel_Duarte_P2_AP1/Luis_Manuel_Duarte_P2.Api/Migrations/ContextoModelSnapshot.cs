@@ -95,6 +95,9 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                     b.Property<int?>("TicketId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Valor")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VehiculoId")
                         .HasColumnType("INTEGER");
 

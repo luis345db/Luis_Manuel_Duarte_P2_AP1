@@ -50,14 +50,15 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     VehiculoId = table.Column<int>(type: "INTEGER", nullable: false),
                     AccesorioId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TicketId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Valor = table.Column<int>(type: "INTEGER", nullable: false),
+                    
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehiculos_Detalle", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vehiculos_Detalle_Vehiculo_TicketId",
-                        column: x => x.TicketId,
+                        name: "FK_Vehiculos_Detalle_Vehiculo_VehiculoId",
+                        column: x => x.VehiculoId,
                         principalTable: "Vehiculo",
                         principalColumn: "VehiculoId");
                 });
@@ -75,9 +76,9 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehiculos_Detalle_TicketId",
+                name: "IX_Vehiculos_Detalle_VehiculoId",
                 table: "Vehiculos_Detalle",
-                column: "TicketId");
+                column: "VehiculoId");
         }
 
         /// <inheritdoc />

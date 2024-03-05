@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Luis_Manuel_Duarte_P2.Api.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240304232720_Initial")]
+    [Migration("20240305003047_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -96,6 +96,9 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("TicketId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Valor")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("VehiculoId")
