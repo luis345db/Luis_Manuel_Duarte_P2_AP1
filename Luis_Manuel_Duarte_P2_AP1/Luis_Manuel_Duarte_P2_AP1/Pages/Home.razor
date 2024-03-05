@@ -95,7 +95,8 @@
     protected override async Task OnInitializedAsync()
     {
         // await Buscar();
-        ListaVehiculos = (await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes"))!;
+        var encontrado= await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes");
+        ListaVehiculos = encontrado ?? new List<Vehiculo>();
     }
 
     public async Task Buscar()
