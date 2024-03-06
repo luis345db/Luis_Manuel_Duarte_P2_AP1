@@ -1,50 +1,50 @@
 ﻿@using Shared.Models
 @page "/Create"
 @inject HttpClient httpClient
+@inject NavigationManager Navigation
 @using System.Xml.Linq
 
+<PageTitle>Registro de Vehiculos</PageTitle>
 <EditForm Model="vehiculo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
             <h1>Registro Vehiculo </h1>
         </div>
-        <div class="card-body">
+        <div class=" card-body">
+            <label>VehiculoId</label>
 
-            <div class="row">
-                <div class="col-6">
-                    <label class="fw-bold">VehiculoID:</label>
-                    <InputNumber @bind-Value="vehiculo.VehiculoId" class="form-control"></InputNumber>
-                </div>
-                <div class="col-6">
-                    <label class="fw-bold">Fecha:</label>
-                    <InputDate @bind-Value="vehiculo.Fecha" class="form-control mb-3"></InputDate>
-                    <ValidationMessage For="@(() => vehiculo.Fecha)" />
-                </div>
+            <div class="input-group">
+                <InputNumber min="0" @bind-Value="vehiculo.VehiculoId" class="id-input"></InputNumber>
             </div>
             <div>
-                <label class="fw-bold">Descripci&oacute;n:</label>
-                <InputTextArea @bind-Value="vehiculo.Descripcion" class="form-control"></InputTextArea>
+                <label>Fecha:</label>
+                <InputDate @bind-Value="vehiculo.Fecha" class="form-control"></InputDate>
+                <ValidationMessage For="@(() => vehiculo.Fecha)" />
+            </div>
+
+            <div>
+                <label>Descripci&oacute;n:</label>
+                <InputText @bind-Value="vehiculo.Descripcion" class="form-control"></InputText>
                 <ValidationMessage For="@(() => vehiculo.Descripcion)" />
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <label class="fw-bold">Costo:</label>
-                    <InputNumber @bind-Value="vehiculo.Costo" class="form-control"></InputNumber>
-                </div>
-                <div class="col-6">
-                    <label class="fw-bold">Gasto:</label>
-                    <InputNumber @bind-Value="vehiculo.Gasto" class="form-control"></InputNumber>
-                </div>
+            <div>
+                <label>Costo:</label>
+                <InputNumber @bind-Value="vehiculo.Costo" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => vehiculo.Costo)" />
             </div>
-            
+            <div>
+                <label>Gastos:</label>
+                <InputNumber @bind-Value="vehiculo.Gasto" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => vehiculo.Gasto)" />
+            </div>
+
         </div>
         <div class="card-footer ">
 
-            <div class="d-flex">
-                <a href="/Index" type="button" class="btn btn-secondary bi bi-arrow-left-square-fill" @onclick="Nuevo">Volver atr&aacute;s </a>
-                <button type="button" class="btn btn-primary bi bi-file-earmark-plus-fill" @onclick="Nuevo">Nuevo </button>
-                <button class="btn btn-success bi-floppy-fill">Guardar </button>
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline-primary" @onclick="Atras">Volver <i class="bi bi-arrow-return-left" /></button>
+                <button type="submit" class="btn btn-outline-success">Guardar <i class="bi bi-floppy-fill" /></button>
             </div>
 
         </div>
@@ -52,26 +52,23 @@
 
     @*Detalles:*@
     <div class="card card-header mt-5">
-        <h3>Detalle del vehiculo</h3>
+        <h3>Detalle del Vehiculo</h3>
         <div>
-            <label class="fw-bold mt-3"> Id</label>
-            <InputNumber @bind-Value="Detalles.Id" class="form-control" ></InputNumber>
-          
+            <label class="fw-bold mt-3"> VehiculoId</label>
+            <InputNumber @bind-Value="Detalles.VehiculoId" class="form-control"></InputNumber>
+            <ValidationMessage For="@(() => Detalles.VehiculoId)" />
         </div>
-        <div>
-            <label class="fw-bold mt-3">VehiculoId</label>
-            <InputNumber @bind-Value="Detalles.VehiculoId" class="form-control" ></InputNumber>
-         
-        </div>
-        <div>
-            <label class="fw-bold mt-3">AccesoriosId</label>
-            <InputNumber @bind-Value="Detalles.AccesorioId" class="form-control"></InputNumber>
-
-        </div>
-        <div>
-            <label class="fw-bold mt-3">Valor</label>
-            <InputNumber @bind-Value="Detalles.Valor" class="form-control"></InputNumber>
-
+        <div class="row">
+            <div class="col">
+                <label class="fw-bold mt-3">AccesorioId</label>
+                <InputNumber @bind-Value="Detalles.AccesorioId" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => Detalles.AccesorioId)" />
+            </div>
+            <div class="col">
+                <label class="fw-bold mt-3">Valor</label>
+                <InputNumber @bind-Value="Detalles.Valor" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => Detalles.Valor)" />
+            </div>
         </div>
         <div class="card-footer d-flex justify-content-center">
             <button type="button" @onclick="AgregarDetalle" class="btn btn-outline-success">Agregar</button>
@@ -79,7 +76,6 @@
         <table class='table table-bordered table-hover'>
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>VehiculoId</th>
                     <th>AccesorioId</th>
                     <th>Valor</th>
@@ -91,11 +87,10 @@
                 {
                     var vehiculoEncontrado = BuscarVehiculo(detalle.VehiculoId);
                     <tr>
-                        <td>@detalle.Id</td>
                         <td>@detalle.VehiculoId</td>
                         <td>@detalle.AccesorioId</td>
                         <td>@detalle.Valor</td>
-                        <td><button type="button" class="btn btn-danger bi bi-trash-fill" @onclick=@(() => RemoverDetalle(detalle))></button></td>
+                        <td><button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick=@(() => RemoverDetalle(detalle))></button></td>
                     </tr>
                 }
             </tbody>
@@ -107,20 +102,29 @@
 
 @code {
     [Parameter]
-
     public int VehiculoId { get; set; }
-
     public Vehiculo vehiculo { get; set; } = new Vehiculo();
+    public Accesorios accesorio { get; set; } = new Accesorios();
     public Vehiculos_Detalle Detalles { get; set; } = new Vehiculos_Detalle();
+    public List<Accesorios> listaAccesorios { get; set; } = new List<Accesorios>();
     public List<Vehiculos_Detalle> listaDetalles = new List<Vehiculos_Detalle>();
-    public bool mensajeVacio;
-    public bool emisorVacio;
+    public bool vehiculoVacio;
+    public bool accesorioVacio;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (VehiculoId > 0)
+        {
+            this.vehiculo.VehiculoId = VehiculoId;
+            await Buscar();
+        }
+        vehiculo.Fecha = DateTime.Now;
+    }
 
     private async Task<Vehiculo> BuscarVehiculo(int vehiculoId)
     {
         Vehiculo vehiculo = new Vehiculo();
-        Vehiculos_Detalle vehiculoDetalles = new Vehiculos_Detalle();
         var vehiculoEncontrado = await httpClient.GetFromJsonAsync<Vehiculo>($"api/Vehiculoes/{vehiculoId}");
         if (vehiculoEncontrado != null)
             return vehiculo = vehiculoEncontrado;
@@ -141,10 +145,7 @@
                 StateHasChanged();
             }
         }
-        else
-        {
-            return;
-        }
+       
     }
 
     public async Task Guardar()
@@ -154,15 +155,15 @@
         {
             return;
         }
-        var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculo>();
-        if (vehiculoDevuelto is not null)
-        {
-            vehiculo = vehiculoDevuelto;
-            Detalles.VehiculoId = vehiculo.VehiculoId;
-
+       
             StateHasChanged();
             this.Nuevo();
-        }
+            this.Atras();
+    }
+
+    void Atras()
+    {
+        Navigation.NavigateTo("/Index");
     }
 
     public void Nuevo()
@@ -187,27 +188,13 @@
 
     public async Task AgregarDetalle()
     {
-
-
-        var response = await httpClient.PostAsJsonAsync("api/Vehiculoes", Detalles);
-        if (!response.IsSuccessStatusCode)
+        if (vehiculo != null)
         {
-            return;
-        }
-        var vehiculoDevuelto = await response.Content.ReadFromJsonAsync<Vehiculos_Detalle>();
-        if (vehiculoDevuelto is not null)
-        {
+
             Detalles.VehiculoId = vehiculo.VehiculoId;
-            Detalles = vehiculoDevuelto;
             listaDetalles.Add(Detalles);
-
-            var vehiculoIdGuardado = Detalles.VehiculoId;
-
+            vehiculo.Detalle.Add(Detalles);
             Detalles = new Vehiculos_Detalle();
-            Detalles.VehiculoId = vehiculoIdGuardado;
-            StateHasChanged();
-
-
         }
     }
 
