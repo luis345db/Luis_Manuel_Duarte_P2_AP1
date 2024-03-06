@@ -25,7 +25,7 @@ namespace Luis_Manuel_Duarte_P2.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehiculo>>> GetVehiculo()
         {
-            return await _context.Vehiculo.ToListAsync();
+            return await _context.Vehiculo.Include(v => v.Detalle). ToListAsync();
         }
 
         // GET: api/Vehiculoes/5
