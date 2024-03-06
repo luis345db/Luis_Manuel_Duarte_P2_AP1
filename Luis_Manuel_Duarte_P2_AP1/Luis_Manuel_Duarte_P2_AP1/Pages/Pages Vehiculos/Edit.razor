@@ -35,7 +35,7 @@
             </div>
             <div>
                 <label>Gastos:</label>
-                <InputNumber @bind-Value="vehiculo.Gasto" class="form-control"></InputNumber>
+                <InputNumber @bind-Value="vehiculo.Gasto" class="form-control" readonly></InputNumber>
                 <ValidationMessage For="@(() => vehiculo.Gasto)" />
             </div>
 
@@ -53,11 +53,7 @@
     @*Detalles:*@
     <div class="card card-header mt-5">
         <h3>Detalle del Vehiculo</h3>
-        <div>
-            <label class="fw-bold mt-3"> VehiculoId</label>
-            <InputNumber @bind-Value="Detalles.VehiculoId" class="form-control"></InputNumber>
-            <ValidationMessage For="@(() => Detalles.VehiculoId)" />
-        </div>
+        
         <div class="row">
             <div class="col">
                 <label class="fw-bold mt-3">AccesorioId</label>
@@ -76,7 +72,7 @@
         <table class='table table-bordered table-hover'>
             <thead>
                 <tr>
-                    <th>VehiculoId</th>
+                  
                     <th>AccesorioId</th>
                     <th>Valor</th>
                     <th></th>
@@ -87,7 +83,7 @@
                 {
                     var vehiculoEncontrado = BuscarVehiculo(detalle.VehiculoId);
                     <tr>
-                        <td>@detalle.VehiculoId</td>
+                       
                         <td>@detalle.AccesorioId</td>
                         <td>@detalle.Valor</td>
                         <td><button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick=@(() => RemoverDetalle(detalle))></button></td>
@@ -156,7 +152,7 @@
 
     public async Task Guardar()
     {
-        var response = await httpClient.PostAsJsonAsync("api/Vehiculoes", vehiculo);
+        var response = await httpClient.PutAsJsonAsync($"api/Vehiculoes/{VehiculoId}", vehiculo );
         if (!response.IsSuccessStatusCode)
         {
             return;
@@ -169,7 +165,7 @@
 
     void Atras()
     {
-        Navigation.NavigateTo("/Index");
+        Navigation.NavigateTo("/");
     }
 
     public void Nuevo()
@@ -198,9 +194,10 @@
         {
 
             Detalles.VehiculoId = vehiculo.VehiculoId;
+            vehiculo.Gasto += Detalles.Valor;
             listaDetalles.Add(Detalles);
             vehiculo.Detalle.Add(Detalles);
-            Detalles = new Vehiculos_Detalle();
+            //Detalles = new Vehiculos_Detalle();
         }
     }
 
