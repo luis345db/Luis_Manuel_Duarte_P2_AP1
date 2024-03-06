@@ -32,7 +32,7 @@ namespace Luis_Manuel_Duarte_P2.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehiculo>> GetVehiculo(int id)
         {
-            var vehiculo = await _context.Vehiculo.FindAsync(id);
+            var vehiculo = await _context.Vehiculo.Include(v => v.Detalle).FirstOrDefaultAsync(v => v.VehiculoId == id);
 
             if (vehiculo == null)
             {

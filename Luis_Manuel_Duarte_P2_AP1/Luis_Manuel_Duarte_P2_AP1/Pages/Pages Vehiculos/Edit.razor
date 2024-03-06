@@ -117,11 +117,16 @@
     {
         if (VehiculoId > 0)
         {
-            this.vehiculo.VehiculoId = VehiculoId;
-            await Buscar();
+            var vehiculoEncontrado = await httpClient.GetFromJsonAsync<Vehiculo>($"api/Vehiculoes/{VehiculoId}");
+            if (vehiculoEncontrado != null)
+            {
+                vehiculo = vehiculoEncontrado;
+                listaDetalles = vehiculo.Detalle.ToList();
+            }
+
         }
-        vehiculo.Fecha = DateTime.Now;
     }
+
 
     private async Task<Vehiculo> BuscarVehiculo(int vehiculoId)
     {
