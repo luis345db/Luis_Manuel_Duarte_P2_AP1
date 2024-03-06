@@ -45,7 +45,7 @@
             <thead>
 
                 <tr>
-                    <th>VehiculoId</th>
+                    
                     <th>AccesorioId</th>
                     <th>Valor</th>
                     
@@ -55,7 +55,7 @@
                 @foreach (var detalle in ListaDetalles)
                 {
                     <tr>
-                        <td>@detalle.VehiculoId</td>
+                      
                         <td>@detalle.AccesorioId</td>
                         <td>@detalle.Valor.ToString("N2")</td>
                         
@@ -106,6 +106,6 @@
 
     void Atras()
     {
-        Navigation.NavigateTo("/Index");
+        Navigation.NavigateTo("/");
     }
 }
