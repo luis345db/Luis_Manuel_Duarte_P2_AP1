@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿
 
 @using Shared.Models
 
@@ -96,7 +96,7 @@
     {
         // await Buscar();
         var encontrado= await httpClient.GetFromJsonAsync<List<Vehiculo>>($"api/Vehiculoes");
-        ListaVehiculos = encontrado ?? new List<Vehiculo>();
+       // ListaVehiculos = encontrado ?? new List<Vehiculo>();
     }
 
     public async Task Buscar()

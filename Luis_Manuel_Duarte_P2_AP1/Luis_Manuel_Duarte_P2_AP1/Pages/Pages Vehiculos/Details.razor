@@ -29,7 +29,7 @@
             <thead>
 
                 <tr>
-                    <th>Id</th>
+                    <th>AccesorioId</th>
                     <th>Valor</th>
                 </tr>
             </thead>
@@ -37,7 +37,7 @@
                 @foreach (var detalle in ListaDetalles)
                 {
                     <tr>
-                        <td>@detalle.VehiculoId</td>
+                        
                         <td>@detalle.AccesorioId</td>
                         <td>@detalle.Valor.ToString("N2")</td>
 
@@ -47,7 +47,7 @@
         </table>
     </div>
     <div class="card-footer">
-        <a href="Index" class="btn btn-secondary bi bi-arrow-left-square-fill ms-auto">Volver</a>
+        <a href="" class="btn btn-secondary bi bi-arrow-left-square-fill ms-auto">Volver</a>
     </div>
 </div>
 
