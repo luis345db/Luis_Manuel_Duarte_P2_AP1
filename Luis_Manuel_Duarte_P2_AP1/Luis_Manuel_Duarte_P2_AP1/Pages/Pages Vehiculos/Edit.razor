@@ -1,15 +1,15 @@
 ﻿@using Shared.Models
-@page "/Create"
-@inject HttpClient httpClient
+@page "/Edit"
+@page "/Edit/{VehiculoId:int}"
 @inject NavigationManager Navigation
-@using System.Xml.Linq
+@inject HttpClient httpClient
+@inject IJSRuntime JSRuntime
 
-<PageTitle>Registro de Vehiculos</PageTitle>
 <EditForm Model="vehiculo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
-            <h1>Registro Vehiculo </h1>
+            <h1>Editar Vehiculo </h1>
         </div>
         <div class=" card-body">
             <label>VehiculoId</label>
@@ -43,7 +43,7 @@
         <div class="card-footer ">
 
             <div class="card-footer">
-                <button type="button" class="btn btn-outline-primary  bi bi-car-front" @onclick="Atras">Volver <i class="bi bi-arrow-return-left" /></button>
+                <button type="button" class="btn btn-outline-primary" @onclick="Atras">Volver <i class="bi bi-arrow-return-left" /></button>
                 <button type="submit" class="btn btn-outline-success">Guardar <i class="bi bi-floppy-fill" /></button>
             </div>
 
@@ -53,7 +53,7 @@
     @*Detalles:*@
     <div class="card card-header mt-5">
         <h3>Detalle del Vehiculo</h3>
-      
+        
         <div class="row">
             <div class="col">
                 <label class="fw-bold mt-3">AccesorioId</label>
@@ -72,7 +72,7 @@
         <table class='table table-bordered table-hover'>
             <thead>
                 <tr>
-                    
+                  
                     <th>AccesorioId</th>
                     <th>Valor</th>
                     <th></th>
@@ -83,7 +83,7 @@
                 {
                     var vehiculoEncontrado = BuscarVehiculo(detalle.VehiculoId);
                     <tr>
-                        
+                       
                         <td>@detalle.AccesorioId</td>
                         <td>@detalle.Valor</td>
                         <td><button type="button" class="btn btn-outline-danger bi bi-trash-fill" @onclick=@(() => RemoverDetalle(detalle))>Eliminar</button></td>
@@ -94,6 +94,7 @@
     </div>
 
 </EditForm>
+
 
 
 @code {
@@ -112,11 +113,16 @@
     {
         if (VehiculoId > 0)
         {
-            this.vehiculo.VehiculoId = VehiculoId;
-            await Buscar();
+            var vehiculoEncontrado = await httpClient.GetFromJsonAsync<Vehiculo>($"api/Vehiculoes/{VehiculoId}");
+            if (vehiculoEncontrado != null)
+            {
+                vehiculo = vehiculoEncontrado;
+                listaDetalles = vehiculo.Detalle.ToList();
+            }
+
         }
-        vehiculo.Fecha = DateTime.Now;
     }
+
 
     private async Task<Vehiculo> BuscarVehiculo(int vehiculoId)
     {
@@ -146,7 +152,7 @@
 
     public async Task Guardar()
     {
-        var response = await httpClient.PostAsJsonAsync("api/Vehiculoes", vehiculo);
+        var response = await httpClient.PutAsJsonAsync($"api/Vehiculoes/{VehiculoId}", vehiculo );
         if (!response.IsSuccessStatusCode)
         {
             return;
@@ -159,7 +165,7 @@
 
     void Atras()
     {
-        Navigation.NavigateTo("/Index");
+        Navigation.NavigateTo("/");
     }
 
     public void Nuevo()
@@ -191,14 +197,14 @@
             vehiculo.Gasto += Detalles.Valor;
             listaDetalles.Add(Detalles);
             vehiculo.Detalle.Add(Detalles);
-           // Detalles = new Vehiculos_Detalle();
+            //Detalles = new Vehiculos_Detalle();
         }
     }
 
     public async Task RemoverDetalle(Vehiculos_Detalle details)
     {
 
-
+        vehiculo.Gasto -= Detalles.Valor;
         Detalles = details;
         listaDetalles.Remove(details);
     }

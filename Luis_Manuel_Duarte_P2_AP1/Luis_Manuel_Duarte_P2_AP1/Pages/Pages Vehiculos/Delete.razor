@@ -1,0 +1,111 @@
+﻿@using Shared.Models
+@page "/Delete"
+@page "/Delete/{VehiculoId:int}"
+@inject NavigationManager Navigation
+@inject HttpClient httpClient
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Eliminar Vehiculo</PageTitle>
+
+<div class="card shadow">
+    <div class="card-header">
+        <h3>Eliminar Vehiculo</h3>
+    </div>
+    <div class="card-header">
+        <h3 class="text-danger">¿Estas seguro que quieres eliminar el Vehiculo?</h3>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+
+                <dt class="col-sm-3">VehiculoId:</dt>
+                <dd class="col-sm-9">@vehiculo.VehiculoId</dd>
+
+                <dt class="col-sm-3">Fecha:</dt>
+                <dd class="col-sm-9">@vehiculo.Fecha</dd>
+
+                <dt class="col-sm-3">Descripci&oacute;n:</dt>
+                <dd class="col-sm-9">@vehiculo.Descripcion</dd>
+
+                <dt class="col-sm-3">Costo:</dt>
+                <dd class="col-sm-9">@vehiculo.Costo.ToString("N2")</dd>
+
+                <dt class="col-sm-3">Gastos:</dt>
+                <dd class="col-sm-9">@vehiculo.Gasto.ToString("N2")</dd>
+
+
+            </dl>
+
+        </div>
+        <div class="card-header">
+            <h3>Detalles del vehiculo</h3>
+        </div>
+        <table class="table table-bordered table-hover">
+
+            <thead>
+
+                <tr>
+                    
+                    <th>AccesorioId</th>
+                    <th>Valor</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in ListaDetalles)
+                {
+                    <tr>
+                      
+                        <td>@detalle.AccesorioId</td>
+                        <td>@detalle.Valor.ToString("N2")</td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-outline-primary" @onclick="Atras">Volver <i class="bi bi-arrow-return-left" /></button>
+        <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="bi bi-trash" /></button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int VehiculoId { get; set; }
+    public Vehiculo vehiculo { get; set; } = new Vehiculo();
+   public Vehiculos_Detalle Detalles { get; set; } = new Vehiculos_Detalle();
+    public List<Vehiculos_Detalle> ListaDetalles = new List<Vehiculos_Detalle>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (VehiculoId > 0)
+        {
+            var vehiculoEncontrado = await httpClient.GetFromJsonAsync<Vehiculo>($"api/Vehiculoes/{VehiculoId}");
+            if(vehiculoEncontrado != null)
+            {
+                vehiculo = vehiculoEncontrado;
+                ListaDetalles = vehiculo.Detalle.ToList();
+            }
+            
+        }
+    }
+
+    
+
+    public async Task Eliminar()
+    {
+        var eliminado = await httpClient.DeleteAsync($"api/Vehiculoes/{vehiculo.VehiculoId}");
+        if (eliminado.IsSuccessStatusCode)
+        {
+            return;
+        }
+        Atras();
+    }
+
+    void Atras()
+    {
+        Navigation.NavigateTo("/");
+    }
+}

@@ -92,9 +92,6 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                     b.Property<int>("AccesorioId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TicketId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Valor")
                         .HasColumnType("INTEGER");
 
@@ -103,7 +100,7 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TicketId");
+                    b.HasIndex("VehiculoId");
 
                     b.ToTable("Vehiculos_Detalle");
                 });
@@ -112,7 +109,9 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                 {
                     b.HasOne("Shared.Models.Vehiculo", null)
                         .WithMany("Detalle")
-                        .HasForeignKey("TicketId");
+                        .HasForeignKey("VehiculoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Shared.Models.Vehiculo", b =>

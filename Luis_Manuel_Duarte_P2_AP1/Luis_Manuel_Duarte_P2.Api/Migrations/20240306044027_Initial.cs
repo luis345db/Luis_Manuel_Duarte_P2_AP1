@@ -50,8 +50,7 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     VehiculoId = table.Column<int>(type: "INTEGER", nullable: false),
                     AccesorioId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Valor = table.Column<int>(type: "INTEGER", nullable: false),
-                    
+                    Valor = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +59,8 @@ namespace Luis_Manuel_Duarte_P2.Api.Migrations
                         name: "FK_Vehiculos_Detalle_Vehiculo_VehiculoId",
                         column: x => x.VehiculoId,
                         principalTable: "Vehiculo",
-                        principalColumn: "VehiculoId");
+                        principalColumn: "VehiculoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
