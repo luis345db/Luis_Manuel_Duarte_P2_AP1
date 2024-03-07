@@ -204,7 +204,7 @@
     public async Task RemoverDetalle(Vehiculos_Detalle details)
     {
 
-
+        vehiculo.Gasto -= Detalles.Valor;
         Detalles = details;
         listaDetalles.Remove(details);
     }
